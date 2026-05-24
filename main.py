@@ -7,8 +7,8 @@ app = FastAPI(title="Puente Catastro")
 @app.get("/consultar")
 def consultar_catastro(tipo_via: str, nombre_via: str, numero: str, municipio: str = "MADRID", provincia: str = "MADRID"):
     
-    # Usamos la IP directa del Catastro de España para saltar el bloqueo de DNS
-    URL_CATASTRO = "https://94.142.231.111/ovcservweb/OVCSWLocalizacionRC/OVCCallejero.asmx/OVCConsultaCompleta"
+    # Volvemos al dominio oficial pero asegurando la configuración de cabeceras correctas
+    URL_CATASTRO = "http://ovc.catastro.hacienda.gob.es/ovcservweb/OVCSWLocalizacionRC/OVCCallejero.asmx/OVCConsultaCompleta"
         
     payload = {
         'Provincia': provincia,
