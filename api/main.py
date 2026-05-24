@@ -6,7 +6,7 @@ app = FastAPI(title="Puente Catastro")
 
 @app.get("/consultar")
 def consultar_catastro(tipo_via: str, nombre_via: str, numero: str, municipio: str = "MADRID", provincia: str = "MADRID"):
-    url = "https://ovc.catastro.hacienda.gob.es/ovcservweb/OVCSWLocalizacionRC/OVCCallejero.asmx/OVCConsultaCompleta"
+        URL_CATASTRO = "https://ovc.catastro.hacienda.gob.es/ovcservweb/OVCSWLocalizacionRC/OVCCallejero.asmx/OVCConsultaCompleta"
     
     payload = {
         'Provincia': provincia,
