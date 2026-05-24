@@ -6,8 +6,11 @@ app = FastAPI(title="Puente Catastro")
 
 @app.get("/consultar")
 def consultar_catastro(tipo_via: str, nombre_via: str, numero: str, municipio: str = "MADRID", provincia: str = "MADRID"):
-        URL_CATASTRO = "https://ovc.catastro.hacienda.gob.es/ovcservweb/OVCSWLocalizacionRC/OVCCallejero.asmx/OVCConsultaCompleta"
-    
+        
+       # URL_CATASTRO = "https://ovc.catastro.hacienda.gob.es/ovcservweb/OVCSWLocalizacionRC/OVCCallejero.asmx/OVCConsultaCompleta"
+    # Usamos la IP directa del Catastro de España para saltar el bloqueo de DNS
+         URL_CATASTRO = "https://94.142.231.111/ovcservweb/OVCSWLocalizacionRC/OVCCallejero.asmx/OVCConsultaCompleta"
+        
     payload = {
         'Provincia': provincia,
         'Municipio': municipio,
@@ -23,7 +26,14 @@ def consultar_catastro(tipo_via: str, nombre_via: str, numero: str, municipio: s
     }
     
     try:
-        response = requests.get(url, params=payload, headers=headers, timeout=10)
+       # response = requests.get(url, params=payload, headers=headers, timeout=10)
+
+# 1. Definimos la cabecera Host justo antes de la llamada
+    headers = {"Host": "ovc.catastro.hacienda.gob.es"}
+    
+    # 2. Hacemos la llamada añadiendo headers y verify=False
+    response = requests.get(URL_CATASTRO, params=payload, headers=headers, verify=False, timeout=15)
+            
         
         if response.status_code != 200:
             raise HTTPException(status_code=500, detail=f"Error del Catastro: {response.status_code}")
